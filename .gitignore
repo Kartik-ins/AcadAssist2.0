@@ -2,3 +2,4 @@
 __pycache__/
 # Ignore all __pycache__ directories in subfolders
 **/__pycache__/
+downloads
