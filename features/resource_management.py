@@ -128,9 +128,13 @@ class ResourceCard(QFrame):
     
     def download(self):
         try:
-            destination_path = f"./downloads/{self.file_name}"
-            download_file(self.file_id, destination_path)
-            QMessageBox.information(self, "Success", f"File downloaded to {destination_path}")
+            # Open file dialog to select download directory
+            download_dir = QFileDialog.getExistingDirectory(self, "Select Download Location", os.path.expanduser("~"))
+            
+            if download_dir:  # If user selected a directory
+                destination_path = os.path.join(download_dir, self.file_name)
+                download_file(self.file_id, destination_path)
+                QMessageBox.information(self, "Success", f"File downloaded to {destination_path}")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to download file: {str(e)}")
     
