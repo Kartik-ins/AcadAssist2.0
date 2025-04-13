@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "acadassistdrive",
+  "private_key_id": "399bb313c557a1d78774912a070bd7676b642349",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0HI91/tceGwUq\nChBwhyTjoOGkxy7eZ1QR2ZqO1CuNC8NTSsXkrgKb477xV1jR1d4As6GF9egRUCvf\nE3xDe5M/cTtG8SKMluXCAr4SE8/ULlqyj8of8LLSTTbMycIChVi+ZCokhq1xbrK3\nEdv+Fn84cGDfkFFXzbX12Ktm/EUrwWo7u7cvWpUFLcl1u4rQLek9efdXf9OD1pcJ\nhNB9P/HXddsb5OOU3B33Ul/pKQSJW9WB7N6v0UPvQAy4Y4hlAwAwuf71xdtygfql\ncxcuEnOhwFkRB7hMPwvsk7e2mHz5zwkQtatk6QBqLlgvMNt6QgrLQilIntCcVovF\n9rnIwVB3AgMBAAECggEAGYHh9Kf+oc4vJmD+gFvjUYll61wkuxfkbr1j3M5szIYv\nR2B+M4ChRfU0WXbb+/uke8efccVS9FYSSylgnn37Fdpctr33p/QcMyRdnq8c7m5n\nfIT4mcVmIyUO7w8JDCpZAxL/FOUt3bP7rgmNdP03+do7He47rDT/Nq3/YuUJ4W7q\nC3KLQonQni/Eo1fvp7PzRXWWDUc6uJpBH0GpLogMRg+OM/Ys1n2g2gKHhdRhs7a3\nrjAnM5Myt5PsMe2aTXpRM2+Oy5ZRdXOLA0gs6s8pPSpiXPDydDJuwsECqrW1JjmR\nslcaeBLVuMgR8ngb7eSJzeH697OMFYVUjHdKNp34oQKBgQDYQatBslgtm4MMLuWE\nZ5kde0kxKZE7yW0EzplJmt83PdYp+/vN+NkrqB8lIWbWxWS9vOUD8rIrXBTtQGmp\nTLhyuAsXlRDRbvY4eolAlhXVwBv5yvX/OSA80qK6J4W3et37FyA0ilaqJub3jvO9\nqGR06wqGArWoBlPhDQKPvurbgwKBgQDVNlx5d5LZDTNb6uEfUOh9iIBoipwaeP9G\n3t2dBLFpj3puIapSa0nVJ93UWSy7koa4mrSqM5Xbaa98uBnltAWYwAuOLpZNUiVl\nq7n8nJTn+gkBVCxwcli5Qp9OzjU8GfPQonBMQLNGm08GdDKRrv0ccnuTtQQohQ3m\nbzjAcBIg/QKBgHmbK+dsl4NGAMI4GN6EtyhJ7JWVr1K0aPacCrzGNyFER4siZK2l\nctHG34SsrLy3EXhUoV+/+QrC5A2p/AC04L+52JrxOxzaTeDinw3PmAWz2sdzpzNW\n91bch58wnFPZ5rvMfFKvPB7Ac37gRxXufFb22NsU6PvMWxyhiUA19rFrAoGBAMuH\nzjUByUO7jziCeg6r7JPRF0s0bhnzQTUFEKaQUU+EcInrRyzQUDXTjbXkvof8MvDM\ndgQ3pClEtQmosMgO1nzfbuh2XnJHJX3ttWiIjLj5fVkwYg+hiEKpb2wJ+tV5rL6Q\nIgUYikqvfXuatp9NXT+npYH1/Zc0lHVR3OoO0a99AoGAHsDIGWfD5hiQIpN8Izvm\na/BHBaDOl7ucUFrkILTcBg6jdrvPxnDvdrGRj+HeB50VHnWlBQYopT2sdbebOoDQ\nhgWiBeUdjV/MbnofR5rJHhO+uprciQsmw/HvxC/hjrFqo1eoTahGKCVNfi7LeUZJ\nWum/w8h5r1BCuJpLVOZyH2o=\n-----END PRIVATE KEY-----\n",
+  "client_email": "acadassist@acadassistdrive.iam.gserviceaccount.com",
+  "client_id": "113221008049546849856",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/acadassist%40acadassistdrive.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

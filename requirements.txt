@@ -1,0 +1,13 @@
+PyQt6
+nltk==3.8.1
+bcrypt
+google-generativeai
+python-dotenv
+torch
+transformers
+psycopg
+psycopg2
+scikit-learn
+sumy
+textdistance
+sumy

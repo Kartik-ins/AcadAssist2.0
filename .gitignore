@@ -1,0 +1,5 @@
+# Ensure all __pycache__ directories are ignored
+__pycache__/
+# Ignore all __pycache__ directories in subfolders
+**/__pycache__/
+.env
