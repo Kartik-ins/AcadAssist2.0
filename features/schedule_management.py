@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QCalendarWidget, QPushButton, 
-                            QLineEdit, QMessageBox, QHBoxLayout, QSpinBox)
+                            QLineEdit, QMessageBox, QHBoxLayout, QSpinBox, QFrame)
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QDateTime, QTime
 import requests
@@ -10,65 +10,148 @@ class SchedulePage(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
-        layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # Main layout with centering
+        main_layout = QHBoxLayout(self)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+        
+        # Left side (logo/branding)
+        left_panel = QFrame()
+        left_panel.setStyleSheet("background-color: #0D47A1;")
+        left_panel.setFixedWidth(400)
+        left_layout = QVBoxLayout(left_panel)
+        left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # App logo/title
+        app_label = QLabel("AcadAssist 2.0")
+        app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
+        app_label.setStyleSheet("color: white;")
+        app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # App subtitle
+        subtitle = QLabel("Your Academic Assistant")
+        subtitle.setFont(QFont("Arial", 16))
+        subtitle.setStyleSheet("color: #90CAF9;")
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # Feature highlight
+        feature_label = QLabel("Schedule Management")
+        feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
+        feature_label.setStyleSheet("color: white; margin-top: 30px;")
+        feature_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        feature_desc = QLabel("Organize your deadlines and\nreceive timely reminders")
+        feature_desc.setFont(QFont("Arial", 12))
+        feature_desc.setStyleSheet("color: #90CAF9;")
+        feature_desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        left_layout.addStretch()
+        left_layout.addWidget(app_label)
+        left_layout.addWidget(subtitle)
+        left_layout.addSpacing(40)
+        left_layout.addWidget(feature_label)
+        left_layout.addWidget(feature_desc)
+        left_layout.addStretch()
+        
+        # Right side (schedule content)
+        right_panel = QFrame()
+        right_layout = QVBoxLayout(right_panel)
+        right_layout.setContentsMargins(40, 40, 40, 40)
+        
+        # Schedule content container
+        schedule_container = QFrame()
+        schedule_container.setMaximumWidth(600)
+        schedule_layout = QVBoxLayout(schedule_container)
+        schedule_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         # Title
-        label = QLabel("Schedule Management")
-        label.setFont(QFont("Arial", 20, QFont.Weight.Bold))
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title = QLabel("Schedule Management")
+        title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         # Calendar
         self.calendar = QCalendarWidget()
+        self.calendar.setMinimumHeight(300)
         
         # Deadline Input
-        deadline_layout = QHBoxLayout()
+        deadline_label = QLabel("Deadline Description:")
+        deadline_label.setFont(QFont("Arial", 12))
         self.deadline_input = QLineEdit()
         self.deadline_input.setPlaceholderText("Enter deadline description")
+        self.deadline_input.setMinimumHeight(40)
         
         # Deadline Time Input
         deadline_time_layout = QHBoxLayout()
+        deadline_time_label = QLabel("Deadline Time (IST):")
+        deadline_time_label.setFont(QFont("Arial", 12))
         self.deadline_hour = QSpinBox()
         self.deadline_hour.setRange(0, 23)
         self.deadline_hour.setValue(12)
+        self.deadline_hour.setMinimumHeight(35)
         self.deadline_minute = QSpinBox()
         self.deadline_minute.setRange(0, 59)
         self.deadline_minute.setValue(0)
-        deadline_time_layout.addWidget(QLabel("Deadline Time (IST):"))
+        self.deadline_minute.setMinimumHeight(35)
+        deadline_time_layout.addWidget(deadline_time_label)
         deadline_time_layout.addWidget(self.deadline_hour)
         deadline_time_layout.addWidget(QLabel(":"))
         deadline_time_layout.addWidget(self.deadline_minute)
         
         # Reminder Time Input
         reminder_time_layout = QHBoxLayout()
+        reminder_time_label = QLabel("Reminder Time (IST):")
+        reminder_time_label.setFont(QFont("Arial", 12))
         self.reminder_hour = QSpinBox()
         self.reminder_hour.setRange(0, 23)
         self.reminder_hour.setValue(9)
+        self.reminder_hour.setMinimumHeight(35)
         self.reminder_minute = QSpinBox()
         self.reminder_minute.setRange(0, 59)
         self.reminder_minute.setValue(0)
+        self.reminder_minute.setMinimumHeight(35)
+        reminder_days_label = QLabel("Days before:")
+        reminder_days_label.setFont(QFont("Arial", 12))
         self.reminder_days = QSpinBox()
         self.reminder_days.setRange(0, 30)
         self.reminder_days.setValue(1)
-        reminder_time_layout.addWidget(QLabel("Reminder Time (IST):"))
+        self.reminder_days.setMinimumHeight(35)
+        reminder_time_layout.addWidget(reminder_time_label)
         reminder_time_layout.addWidget(self.reminder_hour)
         reminder_time_layout.addWidget(QLabel(":"))
         reminder_time_layout.addWidget(self.reminder_minute)
-        reminder_time_layout.addWidget(QLabel("Days before:"))
+        reminder_time_layout.addWidget(reminder_days_label)
         reminder_time_layout.addWidget(self.reminder_days)
         
         # Buttons
         self.save_button = QPushButton("Save Deadline")
+        self.save_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        self.save_button.setMinimumHeight(50)
+        self.save_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.save_button.clicked.connect(self.save_deadline)
         
-        layout.addWidget(label)
-        layout.addWidget(self.calendar)
-        layout.addWidget(QLabel("Deadline Description:"))
-        layout.addWidget(self.deadline_input)
-        layout.addLayout(deadline_time_layout)
-        layout.addLayout(reminder_time_layout)
-        layout.addWidget(self.save_button)
-        self.setLayout(layout)
+        # Add widgets to schedule container
+        schedule_layout.addWidget(title)
+        schedule_layout.addSpacing(20)
+        schedule_layout.addWidget(self.calendar)
+        schedule_layout.addSpacing(20)
+        schedule_layout.addWidget(deadline_label)
+        schedule_layout.addWidget(self.deadline_input)
+        schedule_layout.addSpacing(10)
+        schedule_layout.addLayout(deadline_time_layout)
+        schedule_layout.addSpacing(10)
+        schedule_layout.addLayout(reminder_time_layout)
+        schedule_layout.addSpacing(20)
+        schedule_layout.addWidget(self.save_button)
+        
+        # Add schedule container to right panel
+        right_layout.addStretch()
+        right_layout.addWidget(schedule_container)
+        right_layout.addStretch()
+        
+        # Add both panels to main layout
+        main_layout.addWidget(left_panel)
+        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
     
     def convert_to_utc(self, local_datetime):
         """Convert local IST datetime to UTC"""

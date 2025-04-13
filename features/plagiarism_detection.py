@@ -2,7 +2,7 @@ import os
 import requests
 import time  # Import for retry delays
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QMessageBox, QProgressBar, QHBoxLayout, QComboBox
+    QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QMessageBox, QProgressBar, QHBoxLayout, QComboBox, QFrame
 )
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
@@ -74,49 +74,158 @@ class PlagiarismPage(QWidget):
     def __init__(self, parent=None, detection_type="offline"):
         super().__init__(parent)
         self.detection_type = detection_type
-        self.init_ui()
-
-    def init_ui(self):
-        layout = QVBoxLayout()
-        self.label = QLabel("Plagiarism Detection")
-        layout.addWidget(self.label)
-
-        # Dropdown to select detection type
+        
+        # Main layout with centering
+        main_layout = QHBoxLayout(self)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+        
+        # Left side (logo/branding)
+        left_panel = QFrame()
+        left_panel.setStyleSheet("background-color: #0D47A1;")
+        left_panel.setFixedWidth(400)
+        left_layout = QVBoxLayout(left_panel)
+        left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # App logo/title
+        app_label = QLabel("AcadAssist 2.0")
+        app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
+        app_label.setStyleSheet("color: white;")
+        app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # App subtitle
+        subtitle = QLabel("Your Academic Assistant")
+        subtitle.setFont(QFont("Arial", 16))
+        subtitle.setStyleSheet("color: #90CAF9;")
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # Feature highlight
+        feature_label = QLabel("Plagiarism Detection")
+        feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
+        feature_label.setStyleSheet("color: white; margin-top: 30px;")
+        feature_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        feature_desc = QLabel("Ensure your work is original\nwith our detection system")
+        feature_desc.setFont(QFont("Arial", 12))
+        feature_desc.setStyleSheet("color: #90CAF9;")
+        feature_desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        left_layout.addStretch()
+        left_layout.addWidget(app_label)
+        left_layout.addWidget(subtitle)
+        left_layout.addSpacing(40)
+        left_layout.addWidget(feature_label)
+        left_layout.addWidget(feature_desc)
+        left_layout.addStretch()
+        
+        # Right side (plagiarism content)
+        right_panel = QFrame()
+        right_layout = QVBoxLayout(right_panel)
+        right_layout.setContentsMargins(40, 40, 40, 40)
+        
+        # Plagiarism content container
+        plag_container = QFrame()
+        plag_container.setMaximumWidth(800)
+        plag_layout = QVBoxLayout(plag_container)
+        plag_layout.setSpacing(20)
+        
+        # Title
+        title = QLabel("Plagiarism Detection")
+        title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # Detection type selector
+        mode_label = QLabel("Detection Mode:")
+        mode_label.setFont(QFont("Arial", 12))
         self.mode_selector = QComboBox()
         self.mode_selector.addItems(["Offline (Compare Two Texts)", "Online (Check with Online Content)"])
+        self.mode_selector.setFont(QFont("Arial", 12))
+        self.mode_selector.setMinimumHeight(40)
         self.mode_selector.currentIndexChanged.connect(self.update_detection_mode)
-        layout.addWidget(self.mode_selector)
-
+        
         # Input fields for offline mode
+        text1_label = QLabel("First Text:")
+        text1_label.setFont(QFont("Arial", 12))
         self.input_text_1 = QTextEdit()
         self.input_text_1.setPlaceholderText("Enter or paste the first text here...")
-        layout.addWidget(self.input_text_1)
-
+        self.input_text_1.setMinimumHeight(150)
+        
+        text2_label = QLabel("Second Text:")
+        text2_label.setFont(QFont("Arial", 12))
         self.input_text_2 = QTextEdit()
         self.input_text_2.setPlaceholderText("Enter or paste the second text here (for offline mode)...")
-        layout.addWidget(self.input_text_2)
-
+        self.input_text_2.setMinimumHeight(150)
+        
         # Input field for online mode
+        online_text_label = QLabel("Text to Check:")
+        online_text_label.setFont(QFont("Arial", 12))
         self.input_text_online = QTextEdit()
         self.input_text_online.setPlaceholderText("Enter or paste the text to check for plagiarism (for online mode)...")
+        self.input_text_online.setMinimumHeight(300)
         self.input_text_online.setVisible(False)  # Hidden by default
-        layout.addWidget(self.input_text_online)
-
-        # Check button
+        
+        # Button to check plagiarism
         self.check_button = QPushButton("Check for Plagiarism")
+        self.check_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        self.check_button.setMinimumHeight(50)
+        self.check_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.check_button.clicked.connect(self.check_plagiarism)
-        layout.addWidget(self.check_button)
-
+        
         # Progress bar
         self.progress = QProgressBar()
         self.progress.setVisible(False)
-        layout.addWidget(self.progress)
-
+        self.progress.setMinimumHeight(10)
+        
         # Result label
+        result_label = QLabel("Results:")
+        result_label.setFont(QFont("Arial", 12))
         self.result_label = QLabel("")
-        layout.addWidget(self.result_label)
-
-        self.setLayout(layout)
+        self.result_label.setFont(QFont("Arial", 14))
+        self.result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.result_label.setStyleSheet("padding: 20px;")
+        
+        # Add widgets to plagiarism container
+        plag_layout.addWidget(title)
+        plag_layout.addSpacing(10)
+        plag_layout.addWidget(mode_label)
+        plag_layout.addWidget(self.mode_selector)
+        plag_layout.addSpacing(10)
+        
+        # Offline mode widgets
+        plag_layout.addWidget(text1_label)
+        plag_layout.addWidget(self.input_text_1)
+        plag_layout.addWidget(text2_label)
+        plag_layout.addWidget(self.input_text_2)
+        
+        # Online mode widgets
+        plag_layout.addWidget(online_text_label)
+        plag_layout.addWidget(self.input_text_online)
+        
+        # Set initial visibility based on default detection type
+        online_text_label.setVisible(False)
+        self.input_text_online.setVisible(False)
+        if detection_type == "online":
+            self.mode_selector.setCurrentIndex(1)
+            text1_label.setVisible(False)
+            self.input_text_1.setVisible(False)
+            text2_label.setVisible(False)
+            self.input_text_2.setVisible(False)
+            online_text_label.setVisible(True)
+            self.input_text_online.setVisible(True)
+            
+        # Common widgets
+        plag_layout.addSpacing(10)
+        plag_layout.addWidget(self.check_button)
+        plag_layout.addWidget(self.progress)
+        plag_layout.addWidget(result_label)
+        plag_layout.addWidget(self.result_label)
+        
+        # Add plagiarism container to right panel
+        right_layout.addWidget(plag_container, 1)
+        
+        # Add both panels to main layout
+        main_layout.addWidget(left_panel)
+        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
 
     def update_detection_mode(self, index):
         """Update UI based on selected detection mode."""

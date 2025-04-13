@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QPushButton,
-    QListWidget, QCheckBox, QMessageBox
+    QListWidget, QCheckBox, QMessageBox, QHBoxLayout, QFrame, QScrollArea
 )
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
@@ -84,38 +84,170 @@ class StudyGroupPage(QWidget):
         self.user_email = user_email
         self.student_id = None  # Will be set in load_user_interests
         init_interests()
-
-        layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
+        
+        # Main layout with centering
+        main_layout = QHBoxLayout(self)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+        
+        # Left side (logo/branding)
+        left_panel = QFrame()
+        left_panel.setStyleSheet("background-color: #0D47A1;")
+        left_panel.setFixedWidth(400)
+        left_layout = QVBoxLayout(left_panel)
+        left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # App logo/title
+        app_label = QLabel("AcadAssist 2.0")
+        app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
+        app_label.setStyleSheet("color: white;")
+        app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # App subtitle
+        subtitle = QLabel("Your Academic Assistant")
+        subtitle.setFont(QFont("Arial", 16))
+        subtitle.setStyleSheet("color: #90CAF9;")
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # Feature highlight
+        feature_label = QLabel("Study Group Matcher")
+        feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
+        feature_label.setStyleSheet("color: white; margin-top: 30px;")
+        feature_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        feature_desc = QLabel("Find like-minded peers for\ncollaborative learning")
+        feature_desc.setFont(QFont("Arial", 12))
+        feature_desc.setStyleSheet("color: #90CAF9;")
+        feature_desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        left_layout.addStretch()
+        left_layout.addWidget(app_label)
+        left_layout.addWidget(subtitle)
+        left_layout.addSpacing(40)
+        left_layout.addWidget(feature_label)
+        left_layout.addWidget(feature_desc)
+        left_layout.addStretch()
+        
+        # Right side (study group content)
+        right_panel = QFrame()
+        right_layout = QVBoxLayout(right_panel)
+        right_layout.setContentsMargins(40, 40, 40, 40)
+        
+        # Study group content container
+        content_container = QFrame()
+        content_container.setMaximumWidth(800)
+        content_layout = QVBoxLayout(content_container)
+        content_layout.setSpacing(20)
+        
+        # Title
         title = QLabel("Study Group Matcher")
         title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
+        
+        # User info label
         self.info_label = QLabel("Loading user info...")
+        self.info_label.setFont(QFont("Arial", 12))
         self.info_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.checkboxes = [QCheckBox(interest) for interest in FIXED_INTERESTS]
-
+        
+        # Interests section
+        interests_label = QLabel("Select Your Academic Interests:")
+        interests_label.setFont(QFont("Arial", 14, QFont.Weight.Bold))
+        
+        # Create a scrollable area for checkboxes
+        interests_scroll = QScrollArea()
+        interests_scroll.setWidgetResizable(True)
+        interests_scroll.setStyleSheet("""
+            QScrollArea {
+                border: 1px solid #333;
+                border-radius: 4px;
+                background-color: #1E1E1E;
+            }
+        """)
+        
+        interests_widget = QWidget()
+        interests_layout = QVBoxLayout(interests_widget)
+        interests_layout.setSpacing(10)
+        
+        self.checkboxes = []
+        for interest in FIXED_INTERESTS:
+            checkbox = QCheckBox(interest)
+            checkbox.setFont(QFont("Arial", 12))
+            checkbox.setStyleSheet("""
+                QCheckBox {
+                    color: white;
+                    padding: 5px;
+                }
+                QCheckBox:hover {
+                    background-color: #333;
+                    border-radius: 4px;
+                }
+            """)
+            self.checkboxes.append(checkbox)
+            interests_layout.addWidget(checkbox)
+        
+        interests_scroll.setWidget(interests_widget)
+        interests_scroll.setMinimumHeight(300)
+        
+        # Action buttons layout
+        buttons_layout = QHBoxLayout()
+        
+        # Save button
         self.save_button = QPushButton("Save / Update Interests")
+        self.save_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        self.save_button.setMinimumHeight(40)
+        self.save_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.save_button.clicked.connect(self.save_interests)
-
+        
+        # Find matches button
         self.match_button = QPushButton("Find Matching Students")
+        self.match_button.setFont(QFont("Arial", 12))
+        self.match_button.setMinimumHeight(40)
+        self.match_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.match_button.clicked.connect(self.find_groups)
-
+        
+        buttons_layout.addWidget(self.save_button)
+        buttons_layout.addWidget(self.match_button)
+        
+        # Results section
+        results_label = QLabel("Top Matches:")
+        results_label.setFont(QFont("Arial", 14, QFont.Weight.Bold))
+        
         self.group_list = QListWidget()
-
-        layout.addWidget(title)
-        layout.addWidget(self.info_label)
-        for cb in self.checkboxes:
-            layout.addWidget(cb)
-        layout.addWidget(self.save_button)
-        layout.addWidget(self.match_button)
-        layout.addWidget(QLabel("Top Matches:"))
-        layout.addWidget(self.group_list)
-
-        self.setLayout(layout)
-
+        self.group_list.setFont(QFont("Arial", 12))
+        self.group_list.setMinimumHeight(150)
+        self.group_list.setStyleSheet("""
+            QListWidget {
+                border: 1px solid #333;
+                border-radius: 4px;
+                background-color: #1E1E1E;
+            }
+            QListWidget::item {
+                padding: 8px;
+                border-radius: 2px;
+            }
+            QListWidget::item:selected {
+                background-color: #2196F3;
+            }
+        """)
+        
+        # Add elements to container
+        content_layout.addWidget(title)
+        content_layout.addWidget(self.info_label)
+        content_layout.addSpacing(10)
+        content_layout.addWidget(interests_label)
+        content_layout.addWidget(interests_scroll)
+        content_layout.addLayout(buttons_layout)
+        content_layout.addSpacing(10)
+        content_layout.addWidget(results_label)
+        content_layout.addWidget(self.group_list)
+        
+        # Add content container to right panel
+        right_layout.addWidget(content_container, 1)
+        
+        # Add both panels to main layout
+        main_layout.addWidget(left_panel)
+        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        
         # Only load interests if we have a user email
         if self.user_email:
             self.load_user_interests()
