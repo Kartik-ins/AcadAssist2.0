@@ -141,27 +141,27 @@ class PlagiarismPage(QWidget):
         self.mode_selector.addItems(["Offline (Compare Two Texts)", "Online (Check with Online Content)"])
         self.mode_selector.setFont(QFont("Arial", 12))
         self.mode_selector.setMinimumHeight(40)
-        self.mode_selector.currentIndexChanged.connect(self.update_detection_mode)
+        self.mode_selector.currentIndexChanged.connect(self.update_detection_mode)  
         
         # Input fields for offline mode
         text1_label = QLabel("First Text:")
         text1_label.setFont(QFont("Arial", 12))
         self.input_text_1 = QTextEdit()
         self.input_text_1.setPlaceholderText("Enter or paste the first text here...")
-        self.input_text_1.setMinimumHeight(150)
+        self.input_text_1.setMinimumHeight(55)
         
         text2_label = QLabel("Second Text:")
         text2_label.setFont(QFont("Arial", 12))
         self.input_text_2 = QTextEdit()
         self.input_text_2.setPlaceholderText("Enter or paste the second text here (for offline mode)...")
-        self.input_text_2.setMinimumHeight(150)
+        self.input_text_2.setMinimumHeight(55)
         
         # Input field for online mode
         online_text_label = QLabel("Text to Check:")
         online_text_label.setFont(QFont("Arial", 12))
         self.input_text_online = QTextEdit()
         self.input_text_online.setPlaceholderText("Enter or paste the text to check for plagiarism (for online mode)...")
-        self.input_text_online.setMinimumHeight(300)
+        self.input_text_online.setMinimumHeight(150)
         self.input_text_online.setVisible(False)  # Hidden by default
         
         # Button to check plagiarism
