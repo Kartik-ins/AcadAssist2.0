@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, 
     QHBoxLayout, QFrame
 )
-from PyQt6.QtGui import QFont, QIcon, QPixmap
+from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 from models.user import User
 from models.teacher import Teacher
@@ -20,7 +20,7 @@ class LoginPage(QWidget):
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         
-        # Left side (logo/branding)
+        # Left side
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
@@ -32,14 +32,12 @@ class LoginPage(QWidget):
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App features bullet points
+        # App features
         features_label = QLabel(
             "• AI Study Assistant\n"
             "• Resource Management\n"
@@ -61,13 +59,11 @@ class LoginPage(QWidget):
         left_layout.addWidget(features_label)
         left_layout.addStretch()
         
-        # Right side (login form)
+        # Login form
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         right_layout.setContentsMargins(40, 40, 40, 40)
-        
-        # Login form container
         login_container = QFrame()
         login_container.setMaximumWidth(400)
         login_layout = QVBoxLayout(login_container)
@@ -93,7 +89,7 @@ class LoginPage(QWidget):
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_input.setMinimumHeight(40)
         
-        # Forgot password link styled as button
+        # Forgot password
         self.reset_password_button = QPushButton("Forgot Password?")
         self.reset_password_button.setStyleSheet("""
             QPushButton {

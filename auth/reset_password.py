@@ -251,7 +251,6 @@ class ResetPasswordPage(QWidget):
         main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
 
     def send_verification_code(self):
-        """Send verification code to user's email"""
         email = self.email_input.text()
         if not email:
             QMessageBox.warning(self, "Error", "Please enter your email address.")
@@ -272,7 +271,6 @@ class ResetPasswordPage(QWidget):
             QMessageBox.critical(self, "Error", "Failed to send verification code. Please try again.")
 
     def verify_otp(self):
-        """Verify OTP and proceed to password reset"""
         email = self.email_input.text()
         otp = self.otp_input.text()
         
@@ -287,7 +285,6 @@ class ResetPasswordPage(QWidget):
             QMessageBox.warning(self, "Error", "Invalid or expired verification code.")
 
     def resend_verification_code(self):
-        """Resend verification code"""
         email = self.email_input.text()
         otp = otp_manager.generate_otp()
         if otp_manager.send_otp_email(email, otp, "password reset"):
@@ -297,7 +294,6 @@ class ResetPasswordPage(QWidget):
             QMessageBox.critical(self, "Error", "Failed to resend verification code. Please try again.")
 
     def reset_password(self):
-        """Update user's password"""
         if not self.verified_email:
             QMessageBox.critical(self, "Error", "Email verification required.")
             self.stack.setCurrentIndex(0)
