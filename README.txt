@@ -150,6 +150,7 @@ Purpose: Automatically generate concise summaries of lengthy notes
 Access: Click "Notes Summarization" in the sidebar menu
 How to use:
 - Paste your text directly into the input box or click "Upload Notes" to import from a file (only .txt files are supported)
+- For testing purposes, you can use the sample file 'test.txt' located in the 'dummy_testing' folder
 - Click "Summarize Notes" to generate a condensed version
 - The summary will appear in the output box below
 Note: Works offline after initial NLTK downloads
@@ -164,6 +165,7 @@ How to use:
     - Enter the second text in the bottom box
   - Online: Check text against online content (requires internet)
     - Enter your text in the input box or upload a .txt file
+    - For testing purposes, you can use the sample file 'test.txt' located in the 'dummy_testing' folder
 - Click "Check for Plagiarism"
 - View similarity percentage in the results section
 Note: Online mode requires internet connection and HUGGINGFACE_API_KEY
