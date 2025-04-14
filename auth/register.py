@@ -217,7 +217,6 @@ class RegisterPage(QWidget):
         main_layout.addWidget(right_panel, 1) 
 
     def start_registration(self):
-        """Handle step 1 of registration - collect user info and send OTP"""
         name = self.name_input.text()
         email = self.email_input.text()
         password = self.password_input.text()
@@ -241,7 +240,6 @@ class RegisterPage(QWidget):
             QMessageBox.critical(self, "Error", "Failed to send verification code. Please try again.")
 
     def verify_otp(self):
-        """Handle OTP verification and complete registration"""
         if not self.temp_user_data:
             QMessageBox.critical(self, "Error", "Registration data not found. Please try again.")
             self.stack.setCurrentIndex(0)
@@ -269,7 +267,6 @@ class RegisterPage(QWidget):
             QMessageBox.warning(self, "Error", "Invalid or expired verification code.")
 
     def resend_otp(self):
-        """Resend OTP to user's email"""
         if not self.temp_user_data:
             QMessageBox.critical(self, "Error", "Registration data not found. Please try again.")
             self.stack.setCurrentIndex(0)

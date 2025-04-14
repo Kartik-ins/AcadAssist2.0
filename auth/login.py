@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, 
     QHBoxLayout, QFrame
 )
-from PyQt6.QtGui import QFont, QIcon, QPixmap
+from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 from models.user import User
 from models.teacher import Teacher
