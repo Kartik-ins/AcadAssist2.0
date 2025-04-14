@@ -14,6 +14,7 @@ from features.ai_chatbot import ChatbotPage
 from features.resource_management import ResourcePage
 from features.notes_summarization import NotesPage
 from features.plagiarism_detection import PlagiarismPage
+from features.text_to_speech import TextToSpeechPage
 from features.teacher_subject_page import TeacherSubjectPage
 from models.teacher import Teacher
 import os
@@ -241,7 +242,8 @@ class MainWindow(QMainWindow):
             ("chatbot", "AI Study Assistant"),
             ("resource", "Resource Management"),
             ("notes_summarization", "Notes Summarization"),
-            ("plagiarism", "Plagiarism Detection")
+            ("plagiarism", "Plagiarism Detection"),
+            ("text_to_speech", "Text to Speech")
         ]:
             self.nav_buttons[name] = NavButton(label)
             self.nav_buttons[name].clicked.connect(lambda checked, n=name: self.set_page(n))
@@ -270,6 +272,7 @@ class MainWindow(QMainWindow):
             "resource": ResourcePage(self, self.drive_folder_id),
             "notes_summarization": NotesPage(self),
             "plagiarism": PlagiarismPage(self, detection_type="offline"),
+            "text_to_speech": TextToSpeechPage(self),
         }
         
         # Add pages to the stack
@@ -348,7 +351,7 @@ class MainWindow(QMainWindow):
         if self.is_teacher:
             self.set_page("resource")
             # Hide irrelevant navigation options for teachers
-            for name in ["schedule", "study_group", "notes_summarization", "plagiarism", "chatbot"]:
+            for name in ["schedule", "study_group", "notes_summarization", "plagiarism", "chatbot", "text_to_speech"]:
                 self.nav_buttons[name].setVisible(False)
         else:
             self.set_page("resource")  # Default landing page
@@ -365,7 +368,7 @@ class MainWindow(QMainWindow):
         self.feature_buttons_container.setVisible(False)
         
         # Make all navigation options visible again for next login
-        for name in ["schedule", "study_group", "notes_summarization", "plagiarism", "chatbot"]:
+        for name in ["schedule", "study_group", "notes_summarization", "plagiarism", "chatbot", "text_to_speech"]:
             self.nav_buttons[name].setVisible(True)
             
         # Go back to login page

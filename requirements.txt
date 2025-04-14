@@ -33,3 +33,6 @@ google-auth-oauthlib
 
 # Text Processing and Similarity
 textdistance
+
+# Text-to-Speech
+gtts
