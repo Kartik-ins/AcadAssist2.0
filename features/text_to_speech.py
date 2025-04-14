@@ -52,7 +52,7 @@ class TextToSpeechPage(QWidget):
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         # App logo/title
-        app_label = QLabel("AcadAssist 2.0")
+        app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)

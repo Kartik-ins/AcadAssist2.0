@@ -177,7 +177,7 @@ class MainWindow(QMainWindow):
         self.drive_folder_id = "1uIH-yuDQAITSjMyzhxXhjGUdQ7m_MN6F" 
         self.is_teacher = False
         
-        self.setWindowTitle("AcadAssist 2.0")
+        self.setWindowTitle("AcadAssist")
         self.setGeometry(100, 100, 1200, 800)  # Increased window size
         self.setStyleSheet(GLOBAL_STYLESHEET)
         
@@ -196,7 +196,7 @@ class MainWindow(QMainWindow):
         sidebar_layout.setSpacing(0)
         
         # App title in sidebar
-        app_title = QLabel("AcadAssist 2.0")
+        app_title = QLabel("AcadAssist")
         app_title.setObjectName("appTitle")
         app_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         sidebar_layout.addWidget(app_title)
