@@ -149,10 +149,10 @@ Note: Email reminders require internet connection
 Purpose: Automatically generate concise summaries of lengthy notes
 Access: Click "Notes Summarization" in the sidebar menu
 How to use:
-- Paste your text directly into the input box or click "Upload Notes" to import from a file
+- Paste your text directly into the input box or click "Upload Notes" to import from a file (only .txt files are supported)
 - Click "Summarize Notes" to generate a condensed version
 - The summary will appear in the output box below
-**Note**: Works offline after initial NLTK downloads
+Note: Works offline after initial NLTK downloads
 
 5. Plagiarism Detection
 Purpose: Check content for potential plagiarism
@@ -163,7 +163,7 @@ How to use:
     - Enter the first text in the top box
     - Enter the second text in the bottom box
   - Online: Check text against online content (requires internet)
-    - Enter your text in the input box
+    - Enter your text in the input box or upload a .txt file
 - Click "Check for Plagiarism"
 - View similarity percentage in the results section
 Note: Online mode requires internet connection and HUGGINGFACE_API_KEY
