@@ -1,4 +1,4 @@
-AcadAssist 2.0
+AcadAssist
 
 SYSTEM REQUIREMENTS
 - Internet connection is required
@@ -225,5 +225,5 @@ For assistance, please contact:
 - Email: acadassistant8@gmail.com
 
 LICENSE
-AcadAssist 2.0 is developed as an academic project.
+AcadAssist is developed as an academic project.
 © 2025 All Rights Reserved
