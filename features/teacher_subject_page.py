@@ -6,5 +6,5 @@ from features.resource_management import ResourcePage
 
 class TeacherSubjectPage(ResourcePage):
     def __init__(self, parent, drive_folder_id):
-        print(f"TeacherSubjectPage initialized with drive_folder_id: {drive_folder_id}")  # Debugging
+        print(f"TeacherSubjectPage initialized with drive_folder_id: {drive_folder_id}") 
         super().__init__(parent, drive_folder_id)

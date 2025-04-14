@@ -82,34 +82,30 @@ class StudyGroupPage(QWidget):
         super().__init__()
         self.parent = parent
         self.user_email = user_email
-        self.student_id = None  # Will be set in load_user_interests
+        self.student_id = None  
         init_interests()
         
-        # Main layout with centering
+        
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         
-        # Left side (logo/branding)
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Feature highlight
         feature_label = QLabel("Study Group Matcher")
         feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
         feature_label.setStyleSheet("color: white; margin-top: 30px;")
@@ -128,32 +124,26 @@ class StudyGroupPage(QWidget):
         left_layout.addWidget(feature_desc)
         left_layout.addStretch()
         
-        # Right side (study group content)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(40, 40, 40, 40)
         
-        # Study group content container
         content_container = QFrame()
         content_container.setMaximumWidth(800)
         content_layout = QVBoxLayout(content_container)
         content_layout.setSpacing(20)
         
-        # Title
         title = QLabel("Study Group Matcher")
         title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # User info label
         self.info_label = QLabel("Loading user info...")
         self.info_label.setFont(QFont("Arial", 12))
         self.info_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Interests section
         interests_label = QLabel("Select Your Academic Interests:")
         interests_label.setFont(QFont("Arial", 14, QFont.Weight.Bold))
         
-        # Create a scrollable area for checkboxes
         interests_scroll = QScrollArea()
         interests_scroll.setWidgetResizable(True)
         interests_scroll.setStyleSheet("""
@@ -188,17 +178,14 @@ class StudyGroupPage(QWidget):
         interests_scroll.setWidget(interests_widget)
         interests_scroll.setMinimumHeight(300)
         
-        # Action buttons layout
         buttons_layout = QHBoxLayout()
         
-        # Save button
         self.save_button = QPushButton("Save / Update Interests")
         self.save_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
         self.save_button.setMinimumHeight(40)
         self.save_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.save_button.clicked.connect(self.save_interests)
         
-        # Find matches button
         self.match_button = QPushButton("Find Matching Students")
         self.match_button.setFont(QFont("Arial", 12))
         self.match_button.setMinimumHeight(40)
@@ -208,7 +195,6 @@ class StudyGroupPage(QWidget):
         buttons_layout.addWidget(self.save_button)
         buttons_layout.addWidget(self.match_button)
         
-        # Results section
         results_label = QLabel("Top Matches:")
         results_label.setFont(QFont("Arial", 14, QFont.Weight.Bold))
         
@@ -230,7 +216,6 @@ class StudyGroupPage(QWidget):
             }
         """)
         
-        # Add elements to container
         content_layout.addWidget(title)
         content_layout.addWidget(self.info_label)
         content_layout.addSpacing(10)
@@ -241,14 +226,11 @@ class StudyGroupPage(QWidget):
         content_layout.addWidget(results_label)
         content_layout.addWidget(self.group_list)
         
-        # Add content container to right panel
         right_layout.addWidget(content_container, 1)
         
-        # Add both panels to main layout
         main_layout.addWidget(left_panel)
-        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        main_layout.addWidget(right_panel, 1)  
         
-        # Only load interests if we have a user email
         if self.user_email:
             self.load_user_interests()
         else:

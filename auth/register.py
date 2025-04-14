@@ -9,32 +9,26 @@ class RegisterPage(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
-        self.temp_user_data = None  # Store user data during verification
-        
-        # Main layout with centering
+        self.temp_user_data = None  
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         
-        # Left side (logo/branding)
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App features bullet points
         features_label = QLabel(
             "• AI Study Assistant\n"
             "• Resource Management\n"
@@ -56,27 +50,22 @@ class RegisterPage(QWidget):
         left_layout.addWidget(features_label)
         left_layout.addStretch()
         
-        # Right side (registration form)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         right_layout.setContentsMargins(40, 40, 40, 40)
         
-        # Create stacked widget for registration steps
         self.stack = QStackedWidget()
         
-        # Registration form container (Step 1)
         register_container = QFrame()
         register_container.setMaximumWidth(400)
         register_layout = QVBoxLayout(register_container)
         register_layout.setSpacing(16)
         
-        # Register title
         register_title = QLabel("Register New Account")
         register_title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         register_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Full Name field
         name_label = QLabel("Full Name")
         name_label.setFont(QFont("Arial", 12))
         self.name_input = QLineEdit()
@@ -128,7 +117,7 @@ class RegisterPage(QWidget):
         login_layout.addWidget(login_label)
         login_layout.addWidget(self.login_button)
         
-        # Add widgets to register container
+       
         register_layout.addWidget(register_title)
         register_layout.addSpacing(20)
         register_layout.addWidget(name_label)
@@ -208,7 +197,6 @@ class RegisterPage(QWidget):
         self.back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.back_button.clicked.connect(lambda: self.stack.setCurrentIndex(0))
         
-        # Add widgets to OTP container
         otp_layout.addWidget(self.back_button, alignment=Qt.AlignmentFlag.AlignLeft)
         otp_layout.addWidget(otp_title)
         otp_layout.addSpacing(10)
@@ -220,16 +208,13 @@ class RegisterPage(QWidget):
         otp_layout.addSpacing(10)
         otp_layout.addWidget(self.resend_button, alignment=Qt.AlignmentFlag.AlignCenter)
         
-        # Add containers to stack
         self.stack.addWidget(register_container)
         self.stack.addWidget(otp_container)
         
-        # Add stack to right panel
         right_layout.addWidget(self.stack)
         
-        # Add both panels to main layout
         main_layout.addWidget(left_panel)
-        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        main_layout.addWidget(right_panel, 1) 
 
     def start_registration(self):
         """Handle step 1 of registration - collect user info and send OTP"""
@@ -241,7 +226,6 @@ class RegisterPage(QWidget):
             QMessageBox.warning(self, "Error", "All fields are required.")
             return
             
-        # Store user data temporarily
         self.temp_user_data = {
             'name': name,
             'email': email,
@@ -252,7 +236,7 @@ class RegisterPage(QWidget):
         otp = otp_manager.generate_otp()
         if otp_manager.send_otp_email(email, otp, "registration"):
             otp_manager.save_otp(email, otp)
-            self.stack.setCurrentIndex(1)  # Show OTP verification page
+            self.stack.setCurrentIndex(1)  
         else:
             QMessageBox.critical(self, "Error", "Failed to send verification code. Please try again.")
 

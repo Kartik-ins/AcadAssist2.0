@@ -11,31 +11,27 @@ class SchedulePage(QWidget):
         super().__init__()
         self.parent = parent
         
-        # Main layout with centering
+       
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(20, 0, 0, 0)
         main_layout.setSpacing(10)
         
-        # Left side (logo/branding)
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Feature highlight
         feature_label = QLabel("Schedule Management")
         feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
         feature_label.setStyleSheet("color: white; margin-top: 30px;")
@@ -54,34 +50,28 @@ class SchedulePage(QWidget):
         left_layout.addWidget(feature_desc)
         left_layout.addStretch()
         
-        # Right side (schedule content)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(40, 40, 40, 40)
         
-        # Schedule content container
         schedule_container = QFrame()
         schedule_container.setMaximumWidth(600)
         schedule_layout = QVBoxLayout(schedule_container)
         schedule_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Title
         title = QLabel("Schedule Management")
         title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Calendar
         self.calendar = QCalendarWidget()
         self.calendar.setMinimumHeight(300)
         
-        # Deadline Input
         deadline_label = QLabel("Deadline Description:")
         deadline_label.setFont(QFont("Arial", 12))
         self.deadline_input = QLineEdit()
         self.deadline_input.setPlaceholderText("Enter deadline description")
         self.deadline_input.setMinimumHeight(40)
         
-        # Deadline Time Input
         deadline_time_layout = QHBoxLayout()
         deadline_time_label = QLabel("Deadline Time (IST):")
         deadline_time_label.setFont(QFont("Arial", 12))
@@ -100,7 +90,6 @@ class SchedulePage(QWidget):
         deadline_time_layout.addWidget(QLabel(":"))
         deadline_time_layout.addWidget(self.deadline_minute)
         
-        # Reminder Time Input
         reminder_time_layout = QHBoxLayout()
         reminder_time_label = QLabel("Reminder Time (IST):")
         reminder_time_label.setFont(QFont("Arial", 12))
@@ -128,14 +117,12 @@ class SchedulePage(QWidget):
         reminder_time_layout.addWidget(reminder_days_label)
         reminder_time_layout.addWidget(self.reminder_days)
         
-        # Buttons
         self.save_button = QPushButton("Save Deadline")
         self.save_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
         self.save_button.setMinimumHeight(50)
         self.save_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.save_button.clicked.connect(self.save_deadline)
         
-        # Add widgets to schedule container
         schedule_layout.addWidget(title)
         schedule_layout.addSpacing(20)
         schedule_layout.addWidget(self.calendar)
@@ -149,23 +136,19 @@ class SchedulePage(QWidget):
         schedule_layout.addSpacing(20)
         schedule_layout.addWidget(self.save_button)
         
-        # Add schedule container to right panel
         right_layout.addStretch()
         right_layout.addWidget(schedule_container)
         right_layout.addStretch()
         
-        # Add both panels to main layout
         main_layout.addWidget(left_panel)
-        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        main_layout.addWidget(right_panel, 1)  
     
     def convert_to_utc(self, local_datetime):
         """Convert local IST datetime to UTC"""
         ist = pytz.timezone('Asia/Kolkata')
         utc = pytz.UTC
         
-        # First localize the datetime to IST
         local_dt = ist.localize(local_datetime)
-        # Then convert to UTC
         utc_dt = local_dt.astimezone(utc)
         return utc_dt
     
@@ -225,12 +208,11 @@ class SchedulePage(QWidget):
         # Get user details from parent
         user_email = self.parent.user_email.strip()
         print(f"User Email: {user_email}")
-        user_name = "User"  # You might want to get the actual user name from your database
+        user_name = "User"  
         print(f"Task Name: {task_name}")
         print(f"Deadline (UTC): {deadline}")
         print(f"Reminder Time (UTC): {reminder_time}")
         
-        # --- Step 1: Create or Get Contacts List ---
         print("\nStep 1: Getting/Creating Contacts List")
         list_name = "Deadline Reminders"
         response = requests.get(
@@ -259,7 +241,6 @@ class SchedulePage(QWidget):
             contacts_list_id = response.json()["Data"][0]["ID"]
             print(f"Created new list with ID: {contacts_list_id}")
         
-        # --- Step 2: Add User to the List ---
         print("\nStep 2: Adding User to Contacts List")
         contact_data = {
             "Email": user_email,
@@ -279,7 +260,6 @@ class SchedulePage(QWidget):
         print(f"Add Contact Response: {response.status_code}")
         print(f"Add Contact Response Text: {response.text}")
         
-        # --- Step 3: Create Campaign Draft ---
         print("\nStep 3: Creating Campaign Draft")
         draft_data = {
             "Locale": "en_US",
@@ -307,7 +287,6 @@ class SchedulePage(QWidget):
             QMessageBox.warning(self, "Error", f"Failed to create campaign draft: {response.text}")
             return
         
-        # --- Step 4: Add Email Content ---
         print("\nStep 4: Adding Email Content")
         content_data = {
             "Html-part": f"""
@@ -327,7 +306,6 @@ class SchedulePage(QWidget):
         print(f"Add Content Response: {response.status_code}")
         print(f"Add Content Response Text: {response.text}")
         
-        # --- Step 5: Schedule Email ---
         print("\nStep 5: Scheduling Email")
         schedule_data = {"Date": reminder_time}
         print(f"Schedule Data: {schedule_data}")

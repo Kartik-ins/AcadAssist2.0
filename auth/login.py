@@ -16,30 +16,26 @@ class LoginPage(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        # Main layout with centering
+        
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         
-        # Left side (logo/branding)
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App features bullet points
         features_label = QLabel(
             "• AI Study Assistant\n"
             "• Resource Management\n"
@@ -61,31 +57,26 @@ class LoginPage(QWidget):
         left_layout.addWidget(features_label)
         left_layout.addStretch()
         
-        # Right side (login form)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         right_layout.setContentsMargins(40, 40, 40, 40)
         
-        # Login form container
         login_container = QFrame()
         login_container.setMaximumWidth(400)
         login_layout = QVBoxLayout(login_container)
         login_layout.setSpacing(16)
         
-        # Login title
         login_title = QLabel("Login to Your Account")
         login_title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         login_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Email field
         email_label = QLabel("Email")
         email_label.setFont(QFont("Arial", 12))
         self.email_input = QLineEdit()
         self.email_input.setPlaceholderText("Enter your email")
         self.email_input.setMinimumHeight(40)
         
-        # Password field
         password_label = QLabel("Password")
         password_label.setFont(QFont("Arial", 12))
         self.password_input = QLineEdit()
@@ -93,7 +84,6 @@ class LoginPage(QWidget):
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_input.setMinimumHeight(40)
         
-        # Forgot password link styled as button
         self.reset_password_button = QPushButton("Forgot Password?")
         self.reset_password_button.setStyleSheet("""
             QPushButton {
@@ -112,7 +102,6 @@ class LoginPage(QWidget):
         self.reset_password_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.reset_password_button.clicked.connect(self.go_to_reset_password)
         
-        # Login buttons
         self.login_button = QPushButton("Login as Student")
         self.login_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
         self.login_button.setMinimumHeight(50)
@@ -133,7 +122,6 @@ class LoginPage(QWidget):
         self.teacher_login_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.teacher_login_button.clicked.connect(self.attempt_teacher_login)
         
-        # Register link
         register_layout = QHBoxLayout()
         register_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         register_label = QLabel("Don't have an account?")
@@ -156,7 +144,6 @@ class LoginPage(QWidget):
         register_layout.addWidget(register_label)
         register_layout.addWidget(self.register_button)
         
-        # Add widgets to login container
         login_layout.addWidget(login_title)
         login_layout.addSpacing(20)
         login_layout.addWidget(email_label)
@@ -170,14 +157,12 @@ class LoginPage(QWidget):
         login_layout.addSpacing(20)
         login_layout.addLayout(register_layout)
         
-        # Add login container to right panel
         right_layout.addStretch()
         right_layout.addWidget(login_container)
         right_layout.addStretch()
         
-        # Add both panels to main layout
         main_layout.addWidget(left_panel)
-        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        main_layout.addWidget(right_panel, 1)  
         
     def attempt_teacher_login(self):
         email = self.email_input.text()
@@ -190,11 +175,10 @@ class LoginPage(QWidget):
         if Teacher.authenticate(email, password):
             teacher = Teacher.get_teacher_by_email(email)
             if teacher:
-                # Use hardcoded drive folder ID
                 self.parent.drive_folder_id = "1uIH-yuDQAITSjMyzhxXhjGUdQ7m_MN6F"
                 print(f"Teacher login successful. Using folder ID: {self.parent.drive_folder_id}")
                 self.parent.set_user_details(email, None)
-                self.parent.set_page("resource")  # Redirect to resource page
+                self.parent.set_page("resource")  
             else:
                 QMessageBox.warning(self, "Login Failed", "Teacher record not found.")
         else:
@@ -208,8 +192,7 @@ class LoginPage(QWidget):
             QMessageBox.warning(self, "Login Failed", "Please enter both email and password.")
             return
 
-        if User.authenticate(email, password):  # Check if it's a student login
-            # Get student details from database
+        if User.authenticate(email, password):  
             conn = psycopg2.connect(os.getenv("DB_URL"))
             cur = conn.cursor()
             cur.execute("SELECT id FROM students WHERE email = %s;", (email,))
@@ -219,7 +202,6 @@ class LoginPage(QWidget):
             
             if result:
                 student_id = result[0]
-                # Set user details in main window and use hardcoded drive folder ID
                 self.parent.drive_folder_id = "1uIH-yuDQAITSjMyzhxXhjGUdQ7m_MN6F"
                 print(f"Student login successful. Using folder ID: {self.parent.drive_folder_id}")
                 self.parent.set_user_details(email, student_id)
