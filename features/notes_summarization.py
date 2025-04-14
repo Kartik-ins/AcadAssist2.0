@@ -121,7 +121,7 @@ class NotesPage(QWidget):
         main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
     
     def upload_notes(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select Notes File")
+        file_path, _ = QFileDialog.getOpenFileName(self, "Select Notes File", filter="Text Files (*.txt)")
         if file_path:
             with open(file_path, "r", encoding="utf-8") as file:
                 self.notes_input.setPlainText(file.read())
