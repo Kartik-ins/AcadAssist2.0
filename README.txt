@@ -24,9 +24,9 @@ Step 2: Set Up the Environment
 
 1. Open Command Prompt (Windows) or Terminal (macOS/Linux)
 
-2. Navigate to the AcadAssist2.0 directory:
+2. Navigate to the AcadAssist directory:
    -------------------------------------------------------------------------------
-   cd c:\path\to\AcadAssist2.0
+   cd c:\path\to\AcadAssist
    -------------------------------------------------------------------------------
 
 3. Create a virtual environment:
