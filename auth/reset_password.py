@@ -20,7 +20,7 @@ class ResetPasswordPage(QWidget):
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         # App logo/title
-        app_label = QLabel("AcadAssist 2.0")
+        app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -38,7 +38,9 @@ class ResetPasswordPage(QWidget):
             "• Schedule Organization\n"
             "• Notes Summarization\n"
             "• Plagiarism Detection\n"
-            "• Study Group Matching"
+            "• Study Group Matching\n"
+            "• Text to Speech\n" 
+            "• Feedback"
         )
         features_label.setFont(QFont("Arial", 14))
         features_label.setStyleSheet("color: white; margin-top: 30px;")
