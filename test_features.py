@@ -186,9 +186,10 @@ def test_registration_validation():
     page.name_input.setText("")
     page.email_input.setText("")
     page.password_input.setText("")
-    page.register_user()
+    page.start_registration()
     # Should not proceed with empty fields
     assert page.name_input.text() == ""
+    assert page.stack.currentIndex() == 0  # Should stay on registration page
 
 def test_password_reset():
     page = ResetPasswordPage(None)
