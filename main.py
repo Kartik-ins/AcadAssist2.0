@@ -16,6 +16,7 @@ from features.notes_summarization import NotesPage
 from features.plagiarism_detection import PlagiarismPage
 from features.text_to_speech import TextToSpeechPage
 from features.teacher_subject_page import TeacherSubjectPage
+from features.feedback_page import FeedbackPage
 from models.teacher import Teacher
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -243,7 +244,8 @@ class MainWindow(QMainWindow):
             ("resource", "Resource Management"),
             ("notes_summarization", "Notes Summarization"),
             ("plagiarism", "Plagiarism Detection"),
-            ("text_to_speech", "Text to Speech")
+            ("text_to_speech", "Text to Speech"),
+            ("feedback", "Feedback")
         ]:
             self.nav_buttons[name] = NavButton(label)
             self.nav_buttons[name].clicked.connect(lambda checked, n=name: self.set_page(n))
@@ -279,6 +281,9 @@ class MainWindow(QMainWindow):
         for page in self.pages.values():
             self.stack.addWidget(page)
         
+        # Initialize feedback page (will be recreated on login)
+        self.feedback_page = None
+        
         # Add sidebar and stack to main layout
         main_layout.addWidget(self.sidebar)
         main_layout.addWidget(self.stack)
@@ -309,13 +314,12 @@ class MainWindow(QMainWindow):
             self.stack.setCurrentWidget(self.pages["teacher_subject"])
             return
             
-        # Check if user is a teacher trying to access non-resource and non-login pages
-        if self.is_teacher and page_name not in ["login", "resource"]:
-            if page_name not in ["login", "register", "reset_password"]:
-                QMessageBox.warning(self, "Access Denied", "Teachers can only access the Resource page.")
-                # Reset to resource page
-                page_name = "resource"
-                self.nav_buttons["resource"].setChecked(True)
+        # Check if user is a teacher trying to access restricted pages
+        if self.is_teacher and page_name not in ["login", "resource", "feedback", "register", "reset_password"]:
+            QMessageBox.warning(self, "Access Denied", "Teachers can only access the Resource and Feedback pages.")
+            # Reset to resource page
+            page_name = "resource"
+            self.nav_buttons["resource"].setChecked(True)
         
         # Handle plagiarism page special case
         if page_name == "plagiarism":
@@ -329,6 +333,8 @@ class MainWindow(QMainWindow):
             # Normal page handling
             if page_name in self.pages:
                 self.stack.setCurrentWidget(self.pages[page_name])
+            elif page_name == "feedback":
+                self.stack.setCurrentWidget(self.feedback_page)
             
     def set_user_details(self, email, student_id):
         """Set user details after successful login"""
@@ -337,6 +343,7 @@ class MainWindow(QMainWindow):
         
         # Check if the user is a teacher
         self.is_teacher = Teacher.get_teacher_by_email(email) is not None
+        print(f"Setting user details. Is teacher: {self.is_teacher}")  # Debug print
         
         # Update the UI for logged-in user
         self.user_label.setText(f"Logged in as: {email}")
@@ -347,12 +354,22 @@ class MainWindow(QMainWindow):
         self.pages["study_group"] = StudyGroupPage(self, user_email=email)
         self.stack.addWidget(self.pages["study_group"])
         
+        # Create new FeedbackPage with correct teacher status
+        if self.feedback_page:
+            self.stack.removeWidget(self.feedback_page)
+            self.feedback_page.deleteLater()
+        self.feedback_page = FeedbackPage(self, self.is_teacher)
+        self.stack.addWidget(self.feedback_page)
+        
         # Set appropriate page based on user type
         if self.is_teacher:
             self.set_page("resource")
             # Hide irrelevant navigation options for teachers
+            # Allow access to resource and feedback pages only
             for name in ["schedule", "study_group", "notes_summarization", "plagiarism", "chatbot", "text_to_speech"]:
                 self.nav_buttons[name].setVisible(False)
+            # Make sure feedback button is visible for teachers
+            self.nav_buttons["feedback"].setVisible(True)
         else:
             self.set_page("resource")  # Default landing page
     
@@ -366,6 +383,12 @@ class MainWindow(QMainWindow):
         self.user_label.setText("Welcome, Guest")
         self.auth_buttons_container.setVisible(True)
         self.feature_buttons_container.setVisible(False)
+        
+        # Clean up feedback page
+        if self.feedback_page:
+            self.stack.removeWidget(self.feedback_page)
+            self.feedback_page.deleteLater()
+            self.feedback_page = None
         
         # Make all navigation options visible again for next login
         for name in ["schedule", "study_group", "notes_summarization", "plagiarism", "chatbot", "text_to_speech"]:
