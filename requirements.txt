@@ -8,7 +8,7 @@ transformers
 google-generativeai
 
 # Database
-psycopg2
+psycopg2-binary
 psycopg
 
 # Security
@@ -20,7 +20,7 @@ python-dotenv
 # Machine Learning and Data Science
 scikit-learn
 pandas
-torch
+
 
 # API and Web
 requests
