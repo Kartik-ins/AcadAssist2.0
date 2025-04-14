@@ -60,9 +60,20 @@ Step 3: Install Required Libraries
    -------------------------------------------------------------------------------
 
 2. Download required NLTK data:
+    
    -------------------------------------------------------------------------------
    python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
    -------------------------------------------------------------------------------
+
+
+**Fix SSL Certificate Issues (macOS) 
+
+1. If you encounter SSL certificate errors on macOS, run the following command:
+   -------------------------------------------------------------------------------
+   /Applications/Python\ 3.x/Install\ Certificates.command
+   -------------------------------------------------------------------------------
+   (Replace "3.x" with your Python version, e.g., "3.11")
+2. This command updates the SSL certificates used by Python on macOS.
 
 Step 4: Configure Settings
 
@@ -93,7 +104,7 @@ User Credentials:
 - Teacher: Use pre-configured credentials
   Sample teacher login:
   Email: teacher@acadassist.edu
-  Password: AcadTeach2023!
+  Password: AcadTeach_2025
 
 USER GUIDE
 
@@ -222,10 +233,14 @@ PyQt6 Installation Issues
   pip install PyQt6
   -------------------------------------------------------------------------------
 
+SSL Certificate Issues (macOS)
+- If you encounter SSL certificate errors on macOS, run the following command:
+  -------------------------------------------------------------------------------
+  /Applications/Python\ 3.x/Install\ Certificates.command
+  -------------------------------------------------------------------------------
+  (Replace "3.x" with your Python version, e.g., "3.11")
+- This command updates the SSL certificates used by Python on macOS
+
 SUPPORT & CONTACT
 For assistance, please contact:
 - Email: acadassistant8@gmail.com
-
-LICENSE
-AcadAssist is developed as an academic project.
-© 2025 All Rights Reserved
