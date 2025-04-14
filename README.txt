@@ -12,7 +12,9 @@ INSTALLATION INSTRUCTIONS
 Step 1: Install Python
 1. Check if Python is already installed:
    -------------------------------------------------------------------------------
-   python --version
+   python --version for Windows user 
+
+   python 3 --version for Mac user if python --version doesn't work
    -------------------------------------------------------------------------------
    
 2. If not installed or using an older version, download Python from:
