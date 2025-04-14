@@ -1,13 +1,35 @@
+# GUI Framework
 PyQt6
+
+# Natural Language Processing
 nltk==3.8.1
-bcrypt
-google-generativeai
-python-dotenv
-torch
+sumy
 transformers
-psycopg
+google-generativeai
+
+# Database
 psycopg2
+psycopg
+
+# Security
+bcrypt
+
+# Environment and Configuration
+python-dotenv
+
+# Machine Learning and Data Science
 scikit-learn
-sumy
+pandas
+torch
+
+# API and Web
+requests
+pytz
+
+# Google Drive API
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+
+# Text Processing and Similarity
 textdistance
-sumy
