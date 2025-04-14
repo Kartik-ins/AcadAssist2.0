@@ -30,9 +30,15 @@ pytz
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+google-auth
 
 # Text Processing and Similarity
 textdistance
 
 # Text-to-Speech
 gtts
+gTTS
+
+# Testing
+pytest
+pytest-cov
