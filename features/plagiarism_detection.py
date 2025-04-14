@@ -11,16 +11,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 class PlagiarismWorker(QThread):
-    finished = pyqtSignal(list)  # Emit a list of similarity scores
+    finished = pyqtSignal(list)  
     error = pyqtSignal(str)
 
     def __init__(self, text):
         super().__init__()
         self.text = text
-        self.api_key = os.getenv('HUGGINGFACE_API_KEY')  # Ensure this is set in your environment
+        self.api_key = os.getenv('HUGGINGFACE_API_KEY')  
         self.api_url = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
-        self.max_retries = 3  # Maximum number of retries
-        self.retry_delay = 5  # Delay between retries in seconds
+        self.max_retries = 3  
+        self.retry_delay = 5  
 
     def run(self):
         try:
@@ -32,7 +32,6 @@ class PlagiarismWorker(QThread):
                 "Content-Type": "application/json"
             }
 
-            # Prepare the payload for the Hugging Face API
             data = {
                 "inputs": {
                     "source_sentence": self.text,
@@ -46,7 +45,6 @@ class PlagiarismWorker(QThread):
             for attempt in range(1, self.max_retries + 1):
                 response = requests.post(self.api_url, headers=headers, json=data)
 
-                # Debugging: Print the response for verification
                 print(f"Attempt {attempt}: API Response Status Code:", response.status_code)
                 print("API Response Text:", response.text)
 
@@ -76,31 +74,26 @@ class PlagiarismPage(QWidget):
         super().__init__(parent)
         self.detection_type = detection_type
         
-        # Main layout with centering
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         
-        # Left side (logo/branding)
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Feature highlight
         feature_label = QLabel("Plagiarism Detection")
         feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
         feature_label.setStyleSheet("color: white; margin-top: 30px;")
@@ -119,23 +112,19 @@ class PlagiarismPage(QWidget):
         left_layout.addWidget(feature_desc)
         left_layout.addStretch()
         
-        # Right side (plagiarism content)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(40, 40, 40, 40)
         
-        # Plagiarism content container
         plag_container = QFrame()
         plag_container.setMaximumWidth(800)
         plag_layout = QVBoxLayout(plag_container)
         plag_layout.setSpacing(20)
         
-        # Title
         title = QLabel("Plagiarism Detection")
         title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Detection type selector
         mode_label = QLabel("Detection Mode:")
         mode_label.setFont(QFont("Arial", 12))
         self.mode_selector = QComboBox()
@@ -144,7 +133,6 @@ class PlagiarismPage(QWidget):
         self.mode_selector.setMinimumHeight(40)
         self.mode_selector.currentIndexChanged.connect(self.update_detection_mode)  
         
-        # Input fields for offline mode
         text1_label = QLabel("First Text:")
         text1_label.setFont(QFont("Arial", 12))
         self.input_text_1 = QTextEdit()
@@ -157,19 +145,16 @@ class PlagiarismPage(QWidget):
         self.input_text_2.setPlaceholderText("Enter or paste the second text here (for offline mode)...")
         self.input_text_2.setMinimumHeight(55)
         
-        # Input field for online mode
         online_text_label = QLabel("Text to Check:")
         online_text_label.setFont(QFont("Arial", 12))
         
-        # Create a horizontal layout for the text input and upload button in online mode
         online_input_layout = QHBoxLayout()
         
         self.input_text_online = QTextEdit()
         self.input_text_online.setPlaceholderText("Enter or paste the text to check for plagiarism (for online mode)...")
         self.input_text_online.setMinimumHeight(150)
-        self.input_text_online.setVisible(False)  # Hidden by default
+        self.input_text_online.setVisible(False)  
         
-        # File upload button for online mode
         self.upload_button = QPushButton("Upload .txt File")
         self.upload_button.setFont(QFont("Arial", 10))
         self.upload_button.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -178,11 +163,9 @@ class PlagiarismPage(QWidget):
         self.upload_button.setMaximumWidth(150)
         self.upload_button.setMinimumHeight(40)
         
-        # Add widgets to online input layout
         online_input_layout.addWidget(self.input_text_online)
         online_input_layout.addWidget(self.upload_button, alignment=Qt.AlignmentFlag.AlignTop)
         
-        # Button to check plagiarism
         self.check_button = QPushButton("Check for Plagiarism")
         self.check_button.setFont(QFont("Arial", 12, QFont.Weight.Bold))
         self.check_button.setMinimumHeight(50)
@@ -273,17 +256,16 @@ class PlagiarismPage(QWidget):
             self.input_text_2.setVisible(True)
             self.input_text_online.setVisible(False)
             self.upload_button.setVisible(False)
-            self.input_text_online.clear()  # Clear online input when switching to offline mode
+            self.input_text_online.clear() 
         elif index == 1:  # Online mode
             self.detection_type = "online"
             self.input_text_1.setVisible(False)
             self.input_text_2.setVisible(False)
             self.input_text_online.setVisible(True)
             self.upload_button.setVisible(True)
-            self.input_text_1.clear()  # Clear offline inputs when switching to online mode
+            self.input_text_1.clear()  
             self.input_text_2.clear()
 
-        # Ensure result label is cleared when switching modes
         self.result_label.clear()
 
     def check_plagiarism(self):
@@ -305,8 +287,7 @@ class PlagiarismPage(QWidget):
     def perform_online_check(self, text):
         """Perform online plagiarism check using Hugging Face API."""
         self.progress.setVisible(True)
-        self.progress.setRange(0, 0)  # Indeterminate progress
-
+        self.progress.setRange(0, 0)  
         self.worker = PlagiarismWorker(text)
         self.worker.finished.connect(self.handle_online_results)
         self.worker.error.connect(self.handle_error)
@@ -327,7 +308,7 @@ class PlagiarismPage(QWidget):
         vectorizer = TfidfVectorizer()
         tfidf_matrix = vectorizer.fit_transform([text1, text2])
         similarity_matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
-        return similarity_matrix[0][0] * 100  # Return as percentage
+        return similarity_matrix[0][0] * 100  
 
     def preprocess_text(self, text):
         """Preprocess the text by removing extra spaces, converting to lowercase, etc."""
@@ -336,9 +317,7 @@ class PlagiarismPage(QWidget):
     def handle_online_results(self, results):
         """Process and display results from the Hugging Face API."""
         try:
-            print("Raw API Results:", results)  # Debugging
-
-            # Calculate a single plagiarism percentage
+            print("Raw API Results:", results)  
             if results:
                 average_similarity = sum(abs(score) for score in results) / len(results)
                 plagiarism_percentage = average_similarity * 100 + 30

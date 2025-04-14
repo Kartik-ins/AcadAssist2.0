@@ -62,7 +62,6 @@ class ChatMessage(QFrame):
         self.setup_ui(text, is_user)
         
     def setup_ui(self, text, is_user):
-        # Set up main layout
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(20, 12, 20, 12)
         
@@ -71,12 +70,10 @@ class ChatMessage(QFrame):
         else:
             main_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
             
-        # Create message bubble
         bubble = QFrame()
         bubble_layout = QVBoxLayout(bubble)
         bubble_layout.setContentsMargins(16, 12, 16, 12)
         
-        # Style the message bubble based on who sent it
         max_width = 550
         if is_user:
             bubble.setStyleSheet("""
@@ -93,7 +90,6 @@ class ChatMessage(QFrame):
             """)
             bubble.setMaximumWidth(max_width)
         
-        # Message text
         message = QLabel(text)
         message.setWordWrap(True)
         message.setTextFormat(Qt.TextFormat.MarkdownText)
@@ -104,7 +100,6 @@ class ChatMessage(QFrame):
         
         bubble_layout.addWidget(message)
         
-        # Add spacer on the appropriate side to push the bubble to the correct side
         if is_user:
             main_layout.addStretch(1)
             main_layout.addWidget(bubble)
@@ -119,31 +114,26 @@ class ChatbotPage(QWidget):
         self.setup_ui()
 
     def setup_ui(self):
-        # Main layout with centering
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         
-        # Left side (logo/branding)
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Feature highlight
         feature_label = QLabel("AI Study Assistant")
         feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
         feature_label.setStyleSheet("color: white; margin-top: 30px;")
@@ -162,13 +152,11 @@ class ChatbotPage(QWidget):
         left_layout.addWidget(feature_desc)
         left_layout.addStretch()
         
-        # Right side (chatbot content)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(0, 0, 0, 20)
         right_layout.setSpacing(20)
         
-        # Header
         header = QFrame()
         header.setStyleSheet("background-color: #1E1E1E;")
         header.setFixedHeight(80)
@@ -180,14 +168,12 @@ class ChatbotPage(QWidget):
         header_layout.addWidget(title)
         right_layout.addWidget(header)
         
-        # Create chat messages area with container widget for messages
         self.chat_area = QWidget()
         self.chat_layout = QVBoxLayout(self.chat_area)
         self.chat_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.chat_layout.setSpacing(16)
         self.chat_layout.setContentsMargins(0, 20, 0, 20)
         
-        # Chat scroll area
         chat_scroll = QScrollArea()
         chat_scroll.setWidgetResizable(True)
         chat_scroll.setWidget(self.chat_area)
@@ -215,7 +201,6 @@ class ChatbotPage(QWidget):
         """)
         self.chat_scroll = chat_scroll
         
-        # Progress bar
         self.progress = QProgressBar()
         self.progress.setFixedHeight(3)
         self.progress.setTextVisible(False)
@@ -230,13 +215,11 @@ class ChatbotPage(QWidget):
         """)
         self.progress.setVisible(False)
         
-        # Input container
         input_container = QFrame()
         input_container.setStyleSheet("background-color: #1E1E1E; border-radius: 8px;")
         input_layout = QHBoxLayout(input_container)
         input_layout.setContentsMargins(16, 10, 16, 10)
         
-        # Chat text input
         self.chat_input = QTextEdit()
         self.chat_input.setStyleSheet("""
             QTextEdit {
@@ -250,7 +233,6 @@ class ChatbotPage(QWidget):
         self.chat_input.setMaximumHeight(100)
         self.chat_input.setMinimumHeight(50)
         
-        # Send button
         self.send_button = QPushButton()
         self.send_button.setIcon(QIcon.fromTheme("document-send"))
         self.send_button.setIconSize(QSize(24, 24))
@@ -273,11 +255,9 @@ class ChatbotPage(QWidget):
         input_layout.addWidget(self.chat_input, 1)
         input_layout.addWidget(self.send_button)
         
-        # Bottom actions panel
         bottom_panel = QFrame()
         bottom_layout = QHBoxLayout(bottom_panel)
         
-        # Reset chat button
         self.reset_button = QPushButton("New Chat")
         self.reset_button.setStyleSheet("""
             QPushButton {
@@ -296,17 +276,14 @@ class ChatbotPage(QWidget):
         bottom_layout.addStretch(1)
         bottom_layout.addWidget(self.reset_button)
         
-        # Add widgets to layout
         right_layout.addWidget(chat_scroll, 1)
         right_layout.addWidget(self.progress)
         right_layout.addWidget(input_container)
         right_layout.addWidget(bottom_panel)
         
-        # Add both panels to main layout
         main_layout.addWidget(left_panel)
-        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        main_layout.addWidget(right_panel, 1)  
         
-        # Add initial welcome message
         welcome_msg = """👋 **Welcome to AI Study Assistant!**
 
 I can help you with:
@@ -339,8 +316,7 @@ How can I help you with your studies today?"""
         self.send_button.setEnabled(False)
         self.reset_button.setEnabled(False)
         self.progress.setVisible(True)
-        self.progress.setRange(0, 0)  # Infinite progress
-
+        self.progress.setRange(0, 0)  
         # Add user message to chat
         self.add_message(message, is_user=True)
         self.chat_input.clear()

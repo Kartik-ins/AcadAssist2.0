@@ -216,7 +216,6 @@ class FeedbackPage(QWidget):
         
         main_layout.addWidget(self.feedback_area)
         
-        # Load feedbacks initially
         self.load_feedbacks()
 
     def submit_feedback(self):
@@ -236,7 +235,6 @@ class FeedbackPage(QWidget):
             conn = psycopg2.connect(os.getenv("DB_URL"))
             cur = conn.cursor()
             
-            # Insert feedback with category
             cur.execute(
                 "INSERT INTO feedbacks (feedback_text, category) VALUES (%s, %s);",
                 (feedback_text, category)
@@ -258,7 +256,6 @@ class FeedbackPage(QWidget):
             print("Student attempted to load feedbacks - blocked") # Debug print
             return
             
-        # Clear existing feedbacks
         while self.feedback_list_layout.count():
             item = self.feedback_list_layout.takeAt(0)
             if item.widget():
@@ -271,7 +268,6 @@ class FeedbackPage(QWidget):
             selected_category = self.filter_selector.currentText()
             print(f"Loading feedbacks for category: {selected_category}")  # Debug print
             
-            # Get feedbacks based on selected category
             if selected_category == "All Feedbacks":
                 cur.execute("SELECT feedback_text, category FROM feedbacks ORDER BY category;")
             else:
@@ -281,8 +277,7 @@ class FeedbackPage(QWidget):
                 )
             
             feedbacks = cur.fetchall()
-            print(f"Found {len(feedbacks)} feedback(s)")  # Debug print
-            
+            print(f"Found {len(feedbacks)} feedback(s)") 
             if not feedbacks:
                 no_feedback_label = QLabel("No feedbacks available")
                 no_feedback_label.setFont(QFont("Arial", 12))
@@ -300,7 +295,6 @@ class FeedbackPage(QWidget):
                         self.feedback_list_layout.addWidget(category_label)
                         current_category = category
                     
-                    # Display feedback in a card
                     feedback_frame = QFrame()
                     feedback_frame.setStyleSheet("""
                         QFrame {

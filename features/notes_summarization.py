@@ -10,31 +10,30 @@ class NotesPage(QWidget):
         super().__init__()
         self.parent = parent
         
-        # Main layout with centering
+       
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         
-        # Left side (logo/branding)
+        
         left_panel = QFrame()
         left_panel.setStyleSheet("background-color: #0D47A1;")
         left_panel.setFixedWidth(400)
         left_layout = QVBoxLayout(left_panel)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App logo/title
+       
         app_label = QLabel("AcadAssist")
         app_label.setFont(QFont("Arial", 28, QFont.Weight.Bold))
         app_label.setStyleSheet("color: white;")
         app_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # App subtitle
+  
         subtitle = QLabel("Your Academic Assistant")
         subtitle.setFont(QFont("Arial", 16))
         subtitle.setStyleSheet("color: #90CAF9;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Feature highlight
         feature_label = QLabel("Notes Summarization")
         feature_label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
         feature_label.setStyleSheet("color: white; margin-top: 30px;")
@@ -53,23 +52,19 @@ class NotesPage(QWidget):
         left_layout.addWidget(feature_desc)
         left_layout.addStretch()
         
-        # Right side (notes content)
         right_panel = QFrame()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(40, 40, 40, 40)
         
-        # Notes content container
         notes_container = QFrame()
         notes_container.setMaximumWidth(800)
         notes_layout = QVBoxLayout(notes_container)
         notes_layout.setSpacing(20)
         
-        # Title
         title = QLabel("Notes Summarization")
         title.setFont(QFont("Arial", 20, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Input area
         input_label = QLabel("Your Notes")
         input_label.setFont(QFont("Arial", 12))
         self.notes_input = QTextEdit()
@@ -113,12 +108,10 @@ class NotesPage(QWidget):
         notes_layout.addWidget(summary_label)
         notes_layout.addWidget(self.summary_output)
         
-        # Add notes container to right panel
         right_layout.addWidget(notes_container, 1)
         
-        # Add both panels to main layout
         main_layout.addWidget(left_panel)
-        main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
+        main_layout.addWidget(right_panel, 1)  
     
     def upload_notes(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Select Notes File", filter="Text Files (*.txt)")
