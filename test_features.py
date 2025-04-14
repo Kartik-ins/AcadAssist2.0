@@ -1,4 +1,3 @@
-import pytest
 from PyQt6.QtWidgets import QApplication
 from datetime import datetime
 import pytz

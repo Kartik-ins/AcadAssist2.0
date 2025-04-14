@@ -37,8 +37,4 @@ textdistance
 
 # Text-to-Speech
 gtts
-gTTS
 
-# Testing
-pytest
-pytest-cov
