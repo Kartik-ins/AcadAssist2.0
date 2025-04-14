@@ -2,7 +2,8 @@ import os
 import requests
 import time  # Import for retry delays
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QMessageBox, QProgressBar, QHBoxLayout, QComboBox, QFrame
+    QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QMessageBox, QProgressBar, QHBoxLayout, QComboBox, QFrame,
+    QFileDialog
 )
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
@@ -159,10 +160,27 @@ class PlagiarismPage(QWidget):
         # Input field for online mode
         online_text_label = QLabel("Text to Check:")
         online_text_label.setFont(QFont("Arial", 12))
+        
+        # Create a horizontal layout for the text input and upload button in online mode
+        online_input_layout = QHBoxLayout()
+        
         self.input_text_online = QTextEdit()
         self.input_text_online.setPlaceholderText("Enter or paste the text to check for plagiarism (for online mode)...")
         self.input_text_online.setMinimumHeight(150)
         self.input_text_online.setVisible(False)  # Hidden by default
+        
+        # File upload button for online mode
+        self.upload_button = QPushButton("Upload .txt File")
+        self.upload_button.setFont(QFont("Arial", 10))
+        self.upload_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.upload_button.clicked.connect(self.upload_text_file)
+        self.upload_button.setVisible(False)  # Hidden by default
+        self.upload_button.setMaximumWidth(150)
+        self.upload_button.setMinimumHeight(40)
+        
+        # Add widgets to online input layout
+        online_input_layout.addWidget(self.input_text_online)
+        online_input_layout.addWidget(self.upload_button, alignment=Qt.AlignmentFlag.AlignTop)
         
         # Button to check plagiarism
         self.check_button = QPushButton("Check for Plagiarism")
@@ -199,11 +217,12 @@ class PlagiarismPage(QWidget):
         
         # Online mode widgets
         plag_layout.addWidget(online_text_label)
-        plag_layout.addWidget(self.input_text_online)
+        plag_layout.addLayout(online_input_layout)
         
         # Set initial visibility based on default detection type
         online_text_label.setVisible(False)
         self.input_text_online.setVisible(False)
+        self.upload_button.setVisible(False)
         if detection_type == "online":
             self.mode_selector.setCurrentIndex(1)
             text1_label.setVisible(False)
@@ -212,6 +231,7 @@ class PlagiarismPage(QWidget):
             self.input_text_2.setVisible(False)
             online_text_label.setVisible(True)
             self.input_text_online.setVisible(True)
+            self.upload_button.setVisible(True)
             
         # Common widgets
         plag_layout.addSpacing(10)
@@ -227,6 +247,24 @@ class PlagiarismPage(QWidget):
         main_layout.addWidget(left_panel)
         main_layout.addWidget(right_panel, 1)  # Right panel takes remaining space
 
+    def upload_text_file(self):
+        """Open a file dialog to select and upload a .txt file for plagiarism checking"""
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Upload Text File",
+            "",
+            "Text Files (*.txt)"
+        )
+        
+        if file_path:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    file_content = file.read()
+                    self.input_text_online.setPlainText(file_content)
+                QMessageBox.information(self, "Success", f"File loaded successfully: {os.path.basename(file_path)}")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to read file: {str(e)}")
+
     def update_detection_mode(self, index):
         """Update UI based on selected detection mode."""
         if index == 0:  # Offline mode
@@ -234,12 +272,14 @@ class PlagiarismPage(QWidget):
             self.input_text_1.setVisible(True)
             self.input_text_2.setVisible(True)
             self.input_text_online.setVisible(False)
+            self.upload_button.setVisible(False)
             self.input_text_online.clear()  # Clear online input when switching to offline mode
         elif index == 1:  # Online mode
             self.detection_type = "online"
             self.input_text_1.setVisible(False)
             self.input_text_2.setVisible(False)
             self.input_text_online.setVisible(True)
+            self.upload_button.setVisible(True)
             self.input_text_1.clear()  # Clear offline inputs when switching to online mode
             self.input_text_2.clear()
 
