@@ -1,4 +1,4 @@
-AcadAssist
+AcadAssist 2.0
 
 SYSTEM REQUIREMENTS
 - Internet connection is required
